@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import StoriesViewComponent, { IStories } from "./stories.view.component";
 import RecentPromptsPanel from "./RecentPromptsPanel";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -1094,24 +1094,31 @@ useEffect(() => {
                       )}
                     </div>
 
-                    <button
-                      type="submit"
-                      disabled={isGenerateDisabled}
-                      aria-busy={loading}
-                      aria-disabled={isGenerateDisabled}
-                      className={`rounded-lg bg-gradient-to-r from-blue-400 to-indigo-500 text-gray-200 px-6 py-3 font-semibold ${
-                        isGenerateDisabled
-                          ? "opacity-50 cursor-not-allowed"
-                          : "cursor-pointer hover:shadow-lg hover:shadow-indigo-500/50 hover:scale-105"
-                      } transition-all duration-300 transform flex items-center space-x-2 group`}
-                    >
-                      {loading ? (
-                        <i className="fas fa-circle-notch text-xl animate-spin"></i>
-                      ) : (
+                    {loading ? (
+                      <button
+                        type="button"
+                        onClick={() => handleCancelGeneration(false)}
+                        className="rounded-lg bg-gradient-to-r from-red-400 to-red-500 text-gray-200 px-6 py-3 font-semibold cursor-pointer hover:shadow-lg hover:shadow-red-500/50 hover:scale-105 transition-all duration-300 transform flex items-center space-x-2 group"
+                      >
+                        <i className="fas fa-times-circle text-xl transition-transform duration-300 group-hover:scale-110"></i>
+                        <span>Cancel</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        disabled={isGenerateDisabled}
+                        aria-busy={loading}
+                        aria-disabled={isGenerateDisabled}
+                        className={`rounded-lg bg-gradient-to-r from-blue-400 to-indigo-500 text-gray-200 px-6 py-3 font-semibold ${
+                          isGenerateDisabled
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer hover:shadow-lg hover:shadow-indigo-500/50 hover:scale-105"
+                        } transition-all duration-300 transform flex items-center space-x-2 group`}
+                      >
                         <i className="fas fa-wand-magic-sparkles text-xl transition-transform duration-300 group-hover:animate-wiggle"></i>
-                      )}
-                      <span>{loading ? text.generating : text.generate}</span>
-                    </button>
+                        <span>{text.generate}</span>
+                      </button>
+                    )}
                   </div>
                   {loading && (
                     <p className="text-sm text-indigo-300 mt-3 text-right" aria-live="polite">
